@@ -24,7 +24,7 @@
                     </button>
                   </div>
 
-                  <a ui-sref="track({ groupName: group.groupName, groupId: group._id })" class="btn btn-lg btn-warning btn-block">Open Track Map</a>
+                  <a href="/#!/{{ vm.groupId }}/track?groupName={{ vm.groupName }}" class="btn btn-lg btn-warning btn-block">Open Track Map</a>
 
                   <div class="errorMessage alert alert-successng-hide-remove" ng-show="vm.successMessage">
                     {{vm.successMessage}}

@@ -3,8 +3,8 @@
         <div class="xs-12">
             <div class="panel panel-default">
                 <div class="panel-heading groupHeading">
-                  <h3 class="panel-title">{{vm.groupId}} Group</h3>
-                    <a class='btn btn-default pull-left backBtn' ng-click='vm.leaveGroup(e)'>
+                  <h3 class="panel-title">{{vm.groupName}}</h3>
+                    <a class='btn btn-default pull-left backBtn' ng-click='vm.leaveGroup()'>
                       <i class='glyphicon glyphicon-chevron-left' />
                     </a>
                 </div>
@@ -31,7 +31,7 @@
                       </marker>
                     </div>
                   </ng-map>
-                  <div class="alert alert-info alert-msg trackMessages">
+                  <div class="errorMessage alert alert-danger ng-hide-remove" ng-show="vm.alertMessage">
                     {{vm.alertMessage}}
                   </div>
                 </div>

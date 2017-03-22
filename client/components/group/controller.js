@@ -6,7 +6,8 @@ function GroupCtrl ($rootScope, $scope, $http, $routeParams, DataFactory) {
   let mailInfo = {}
 
   vm.groupId = $routeParams.groupId
-  vm.groupName = $rootScope.currentGroup
+  vm.groupName = $routeParams.groupName
+  console.log(vm.groupName)
 
   mailInfo.groupId = vm.groupId
 

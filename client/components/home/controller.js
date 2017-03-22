@@ -1,7 +1,7 @@
 angular.module('app')
-  .controller('HomeCtrl', ['$rootScope', '$window', '$location', '$routeParams', '$http', 'AuthFactory', 'DataFactory', HomeCtrl])
+  .controller('HomeCtrl', ['$rootScope', '$window', '$location', '$routeParams', '$http', '$timeout', 'AuthFactory', 'DataFactory', HomeCtrl])
 
-function HomeCtrl ($rootScope, $window, $location, $routeParams, $http, AuthFactory, DataFactory) {
+function HomeCtrl ($rootScope, $window, $location, $routeParams, $http, $timeout, AuthFactory, DataFactory) {
   let vm = this
   let groupToAdd = {}
   let groupToJoin = {}
@@ -19,6 +19,7 @@ function HomeCtrl ($rootScope, $window, $location, $routeParams, $http, AuthFact
     .then(response => {
       $rootScope.currentGroup = response.groupName
       vm.groupsAsMember = response
+      msgGreeting()
     })
 
   // Get group list as admin
@@ -72,6 +73,18 @@ function HomeCtrl ($rootScope, $window, $location, $routeParams, $http, AuthFact
     } else {
       vm.errorMessage = 'A name for the group is needed.'
       return false
+    }
+  }
+
+  function msgGreeting () {
+    if (!$rootScope.firstLoginGreeting) {
+      $rootScope.firstLoginGreeting = true
+      $timeout(() => {
+        vm.successMessage = 'Welcome ' + vm.username + ' !!'
+        $timeout(() => {
+          vm.successMessage = ''
+        }, 3000)
+      }, 750)
     }
   }
 }

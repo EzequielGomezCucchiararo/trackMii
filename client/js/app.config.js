@@ -34,7 +34,7 @@ function RoutesHandler ($routeProvider) {
     })
     .when('/:groupId/track', {
       templateUrl: 'components/track/template.html',
-      controller: 'TrackCtrl',
+      controller: 'TrackCtrl as vm',
       secure: true
     })
     .otherwise({ redirectTo: '/login' })

@@ -1,14 +1,17 @@
 angular.module('app')
-  .controller('TrackCtrl', ['$window', '$scope', 'NgMap', '$state', '$stateParams', 'socketio', TrackCtrl])
+  .controller('TrackCtrl', ['$rootScope', '$window', '$scope', 'NgMap', '$location', '$routeParams', 'socketio', TrackCtrl])
 
-function TrackCtrl ($window, $scope, NgMap, $state, $stateParams, socketio) {
+function TrackCtrl ($rootScope, $window, $scope, NgMap, $location, $routeParams, socketio) {
   let vm = this
-  const username = localStorage.getItem('username')
-  const userId = localStorage.getItem('userId')
 
-  vm.groupId = $stateParams.groupId
+  const username = $rootScope.loggedUser.username
+  const userId = $rootScope.loggedUser.id
+
+  vm.groupId = $routeParams.groupId
+  vm.groupName = $routeParams.groupName
   vm.tracks = []
   vm.track = {userId, username, groupId: vm.groupId}
+
   vm.track.coords = {}
   vm.alertMessage = ''
 
@@ -20,9 +23,9 @@ function TrackCtrl ($window, $scope, NgMap, $state, $stateParams, socketio) {
     socketio.emit('joinGroup', {groupId: vm.groupId, username})
   })
 
-  vm.leaveGroup = (e) => {
+  vm.leaveGroup = () => {
     socketio.emit('leaveGroup')
-    $state.go('group', {groupId: vm.groupId})
+    $location.path('/groups/' + vm.groupId)
   }
 
   socketio.on('send locations', (locations) => {

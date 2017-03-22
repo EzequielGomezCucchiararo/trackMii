@@ -25,7 +25,7 @@
           <!-- List Groups as Members -->
           <ul class="list-group memberGroupList" ng-show="vm.showGroupCheck">
             <li class="list-group-item" ng-repeat="group in vm.groupsAsMember">
-              <a href="/#!/groups/{{group._id}}">
+              <a href="/#!/groups/{{group._id}}?groupName={{group.groupName}}">
                 {{group.groupName}}
                 <span class="badge pull-right">{{group.members.length}}</span>
               </a>
@@ -57,11 +57,11 @@
             </button>
         </div>
 
-        <div class="errorMessage alert alert-danger" ng-show="vm.errorMessage">
+        <div class="errorMessage alert alert-danger ng-hide-remove" ng-show="vm.errorMessage">
           {{vm.errorMessage}}
         </div>
 
-        <div class="errorMessage alert alert-success" ng-show="vm.successMessage">
+        <div class="errorMessage alert alert-success ng-hide-remove" ng-show="vm.successMessage">
           {{vm.successMessage}}
         </div>
       </div>
