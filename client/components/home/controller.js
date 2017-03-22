@@ -6,6 +6,8 @@ function HomeCtrl ($rootScope, $window, $location, $routeParams, $http, AuthFact
   let groupToAdd = {}
   let groupToJoin = {}
 
+  $rootScope.currentGroup = ''
+
   vm.username = $rootScope.loggedUser.username
   vm.userId = $rootScope.loggedUser.id
   vm.showGroupCheck = true
@@ -14,7 +16,10 @@ function HomeCtrl ($rootScope, $window, $location, $routeParams, $http, AuthFact
 
   // Get group list as member
   DataFactory.getListAsMember(vm.userId)
-    .then(response => { vm.groupsAsMember = response })
+    .then(response => {
+      $rootScope.currentGroup = response.groupName
+      vm.groupsAsMember = response
+    })
 
   // Get group list as admin
   DataFactory.getListAsAdmin(vm.userId)

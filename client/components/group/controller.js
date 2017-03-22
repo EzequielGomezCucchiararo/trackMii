@@ -1,12 +1,12 @@
 angular.module('app')
-  .controller('GroupCtrl', ['$scope', '$http', '$stateParams', 'DataFactory', GroupCtrl])
+  .controller('GroupCtrl', ['$rootScope', '$scope', '$http', '$routeParams', 'DataFactory', GroupCtrl])
 
-function GroupCtrl ($scope, $http, $stateParams, DataFactory) {
+function GroupCtrl ($rootScope, $scope, $http, $routeParams, DataFactory) {
   let vm = this
   let mailInfo = {}
 
-  vm.groupId = $stateParams.groupId
-  vm.groupName = $stateParams.groupName
+  vm.groupId = $routeParams.groupId
+  vm.groupName = $rootScope.currentGroup
 
   mailInfo.groupId = vm.groupId
 
