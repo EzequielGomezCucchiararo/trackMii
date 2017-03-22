@@ -4,12 +4,18 @@
             <div class="panel panel-default">
                 <div class="panel-heading groupHeading">
                   <h3 class="panel-title">{{vm.groupName}}</h3>
-                    <a class='btn btn-default pull-left backBtn' ng-click='vm.leaveGroup()'>
-                      <i class='glyphicon glyphicon-chevron-left' />
-                    </a>
+                  <a class='btn btn-default pull-left backBtn' ng-click='vm.leaveGroup()'>
+                    <i class='glyphicon glyphicon-chevron-left' />
+                  </a>
+                  <button class='showUserListBtn btn btn-danger pull-right' ng-click="vm.toggleOnlineUsers()" ng-show="!vm.toggleOnlineUsersCheck">
+                    Show Users
+                  </button>
+                  <button class='showUserListBtn btn btn-danger pull-right' ng-click="vm.toggleOnlineUsers()" ng-show="vm.toggleOnlineUsersCheck">
+                    Hide Users
+                  </button>
                 </div>
                 <div class="usersMapInfo">
-                  <ul class="list-unstyled onlineList">
+                  <!-- <ul class="list-unstyled onlineList">
                     <li class="onlineUser onlineUserBtn" ng-click="vm.toggleOnlineUsers()">Show Online Users</li>
                     <li>
                       <ul class="list-unstyled ng-hide-remove" ng-show="vm.toggleOnlineUsersCheck">
@@ -18,22 +24,18 @@
                         </li>
                       </ul>
                     </li>
+                  </ul> -->
+                  <ul class="list-unstyled onlineList ng-hide-remove" ng-show="vm.toggleOnlineUsersCheck">
+                    <li class="" ng-class="{onlineUser: true, onlineActiveUser: vm.userViewCenter}" ng-repeat="track in vm.tracks">
+                      <p ng-click="vm.changeMapCenter(track.coords)">{{track.username}}</p>
+                    </li>
                   </ul>
                 </div>
                 <div class="panel-body map">
                   <ng-map zoom-to-include-markers="true" default-style="false" disable-default-u-i="true" zoom="20" center="[{{vm.track.coords.latitude}}, {{vm.track.coords.longitude}}]">
-                    <div ng-repeat="track in vm.tracks">
-                      <marker id="{{vm.userId}}" position="[{{track.coords.latitude}}, {{track.coords.longitude}}]" title="marker"
-                        icon="{
-                          path: 'CIRCLE',
-                          fillColor: 'gold',
-                          fillOpacity: 1,
-                          scale: 15,
-                          strokeColor: 'black',
-                          strokeWeight: 3
-                        }" animation="Animation.BOUNCE">
-                      </marker>
-                    </div>
+                      <custom-marker ng-repeat="track in vm.tracks" position="[{{track.coords.latitude}}, {{track.coords.longitude}}]">
+                        <div class="markerDiv"><div><h4>{{track.username[0]}}</h4></div> </div>
+                      </custom-marker>
                   </ng-map>
                   <div class="errorMessage alert alert-danger ng-hide-remove" ng-show="vm.alertMessage">
                     {{vm.alertMessage}}
