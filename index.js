@@ -14,7 +14,7 @@ const io = require('socket.io').listen(server)
 const socketIo = require('./server/config/sockets')
 socketIo(io)
 
-const DB_URI = process.env.DB_URI
+const DB_URI = process.env.DB_URI || 'mongodb://localhost:27017/trackmii'
 const PORT = process.env.PORT
 
 console.log(`connecting to ${DB_URI}...`)
