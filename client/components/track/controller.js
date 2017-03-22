@@ -23,6 +23,11 @@ function TrackCtrl ($rootScope, $window, $scope, NgMap, $location, $routeParams,
     socketio.emit('joinGroup', {groupId: vm.groupId, username})
   })
 
+  vm.changeMapCenter = (coords) => {
+    vm.track.coords.latitude = coords.latitude
+    vm.track.coords.longitude = coords.longitude
+  }
+
   vm.leaveGroup = () => {
     socketio.emit('leaveGroup')
     $location.path('/groups/' + vm.groupId)

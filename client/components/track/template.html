@@ -10,8 +10,8 @@
                 </div>
                 <div class="usersMapInfo">
                   <ul class="list-unstyled onlineList">
-                    <li ng-repeat="track in vm.tracks">
-                      <p>{{track.username}}</p>
+                    <li ng-class="{onlineUser: true, onlineActiveUser: vm.userViewCenter}" ng-repeat="track in vm.tracks">
+                      <p ng-click="vm.changeMapCenter(track.coords)">{{track.username}}</p>
                     </li>
                   </ul>
                 </div>
