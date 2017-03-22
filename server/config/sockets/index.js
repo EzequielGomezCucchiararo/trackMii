@@ -38,9 +38,11 @@ module.exports = function (io) {
     socket.on('disconnect', () => {
       socket.to(socket.groupId).emit('user disconnect', socket.username + 'is now disconnected')
       let newTracks = []
-      ioTracks[socket.groupId].forEach(track => {
-        if (track.userId != socket.userId) newTracks.push(track)
-      })
+      if (ioTracks[socket.groupId]) {
+        ioTracks[socket.groupId].forEach(track => {
+          if (track.userId != socket.userId) newTracks.push(track)
+        })
+      }
       ioTracks[socket.groupId] = newTracks
       io.sockets.in(socket.groupId).emit('send locations', ioTracks[socket.groupId])
     })

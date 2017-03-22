@@ -11,7 +11,8 @@ const db = require('./server/config/db')
 // init Socket.io
 const server = require('http').createServer(app)
 const io = require('socket.io').listen(server)
-const socketIo = require('./server/config/sockets')(io)
+const socketIo = require('./server/config/sockets')
+socketIo(io)
 
 const DB_URI = process.env.DB_URI
 const PORT = process.env.PORT
