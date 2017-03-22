@@ -1,0 +1,42 @@
+<div class="container">
+    <div class="row">
+        <div class="xs-12">
+            <div class="panel panel-default">
+                <div class="panel-heading groupHeading">
+                  <h3 class="panel-title">{{vm.groupId}} Group</h3>
+                    <a class='btn btn-default pull-left backBtn' ng-click='vm.leaveGroup(e)'>
+                      <i class='glyphicon glyphicon-chevron-left' />
+                    </a>
+                </div>
+                <div class="usersMapInfo">
+                  <ul>
+                    <li>{{vm.tracks.length}} users connected</li>
+                    <li ng-repeat="track in vm.tracks">
+                      <p>{{track.username}} Connected</p>
+                    </li>
+                  </ul>
+                </div>
+                <div class="panel-body map">
+                  <ng-map zoom-to-include-markers="true" default-style="false" disable-default-u-i="true" zoom="20" center="[{{vm.track.coords.latitude}}, {{vm.track.coords.longitude}}]">
+                    <div ng-repeat="track in vm.tracks">
+                      <marker id="{{vm.userId}}" position="[{{track.coords.latitude}}, {{track.coords.longitude}}]" title="marker"
+                        icon="{
+                          path: 'CIRCLE',
+                          fillColor: 'gold',
+                          fillOpacity: 1,
+                          scale: 15,
+                          strokeColor: 'black',
+                          strokeWeight: 3
+                        }" animation="Animation.BOUNCE">
+                      </marker>
+                    </div>
+                  </ng-map>
+                  <div class="alert alert-info alert-msg trackMessages">
+                    {{vm.alertMessage}}
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+s

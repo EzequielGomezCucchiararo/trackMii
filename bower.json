@@ -1,0 +1,25 @@
+{
+  "name": "trackmii",
+  "description": "A dinamic real-time geolocation tracker",
+  "main": "index.js",
+  "authors": [
+    "Ezequiel Gómez <ezequiel.cucchiararo@gmail.com>"
+  ],
+  "license": "ISC",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "client/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "jquery": "^3.1.1",
+    "angular-jwt": "^0.1.9",
+    "ngmap": "^1.18.4",
+    "socket.io-client": "^1.7.2",
+    "angular-route": "^1.6.3"
+  }
+}

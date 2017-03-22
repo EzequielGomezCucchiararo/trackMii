@@ -1,0 +1,70 @@
+<div class="container">
+  <div class='row'>
+    <div class=''>
+      <div class='homeHeader panel panel-default'>
+        <div class='panel-heading'>
+          <h3 class='homePanelH panel-title'>Home</h3>
+          <p class="greetUser"><strong>{{vm.username}}</strong></p>
+          <button class='logoutBtn btn btn-danger pull-right' ng-click='vm.logout()'>
+            <i class='glyphicon glyphicon-log-out' />
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="">
+      <div class='panel-body'>
+        <h4 class="groupH4 bg-info">Your groups</h4>
+        <ul class="nav nav-pills text-center" role="tablist">
+          <li role="presentation" ng-class="vm.activeMember"><a ng-click="vm.toggleGroup()">As member <span class="badge">{{vm.groupsAsMember.length}}</span></a></li>
+          <li role="presentation" ng-class="vm.activeAdmin"><a ng-click="vm.toggleGroup()">As admin <span class="badge">{{vm.groupsAsAdmin.length || 0}}</span></a></li>
+        </ul>
+
+        <div class="row">
+          <!-- List Groups as Members -->
+          <ul class="list-group memberGroupList" ng-show="vm.showGroupCheck">
+            <li class="list-group-item" ng-repeat="group in vm.groupsAsMember">
+              <a ui-sref="group({ groupName: group.groupName, groupId: group._id })">
+                {{group.groupName}}
+                <span class="badge pull-right">{{group.members.length}}</span>
+              </a>
+            </li>
+          </ul>
+
+          <!-- List Groups as Admin -->
+          <ul class="list-group adminGroupList" ng-show="!vm.showGroupCheck">
+            <li class="list-group-item" ng-repeat="group in vm.groupsAsAdmin">
+              <a ui-sref="group({ groupId: group._id, groupName: group.groupName })">
+                {{group.groupName}}
+                <span class="badge pull-right">{{group.members.length}}</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="form-group addGroupInput">
+            <input class="form-control" placeholder="Create a new group" type="text" ng-model="vm.newGroupName">
+            <button class='btn btn-success pull-right' ng-click='vm.addGroup()'>
+              <i class='glyphicon glyphicon-plus' />
+            </button>
+        </div>
+
+        <div class="form-group inviteInput">
+            <input class="form-control" placeholder="Join a group" type="text" ng-model="vm.joinGroupPassword">
+            <button class='btn btn-success pull-right' ng-click='vm.joinGroup()'>
+              <i class='glyphicon glyphicon-plus' />
+            </button>
+        </div>
+
+        <div class="errorMessage alert alert-danger" ng-show="vm.errorMessage">
+          {{vm.errorMessage}}
+        </div>
+
+        <div class="errorMessage alert alert-success" ng-show="vm.successMessage">
+          {{vm.successMessage}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
