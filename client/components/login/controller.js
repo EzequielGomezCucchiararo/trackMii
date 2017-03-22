@@ -10,5 +10,8 @@ function LoginCtrl ($location, AuthFactory) {
     AuthFactory.login({ username, password })
       .then(AuthFactory.setCredentials)
       .then(() => $location.path('/home'))
+      .catch(() => {
+        vm.errorMessage = 'Username or password are wrong'
+      })
   }
 }

@@ -20,8 +20,8 @@
                             <input class="btn btn-lg btn-warning btn-block" type="submit" value="Restore Password">
                         </fieldset>
                     </form>
-                    <div class="errorMessage alert alert-danger">
-                      Here goes a message
+                    <div class="errorMessage alert alert-danger ng-hide-remove" ng-show="vm.errorMessage">
+                      {{ vm.errorMessage }}
                     </div>
                 </div>
             </div>

@@ -1,12 +1,12 @@
 angular.module('app')
-  .controller('HomeCtrl', ['$rootScope', '$window', '$state', '$stateParams', '$http', 'AuthFactory', 'DataFactory', HomeCtrl])
+  .controller('HomeCtrl', ['$rootScope', '$window', '$location', '$routeParams', '$http', 'AuthFactory', 'DataFactory', HomeCtrl])
 
-function HomeCtrl ($rootScope, $window, $state, $stateParams, $http, AuthFactory, DataFactory) {
+function HomeCtrl ($rootScope, $window, $location, $routeParams, $http, AuthFactory, DataFactory) {
   let vm = this
   let groupToAdd = {}
   let groupToJoin = {}
 
-  vm.username = $stateParams.username
+  vm.username = $rootScope.loggedUser.username
   vm.userId = $rootScope.loggedUser.id
   vm.showGroupCheck = true
   vm.activeMember = 'active'
@@ -45,7 +45,7 @@ function HomeCtrl ($rootScope, $window, $state, $stateParams, $http, AuthFactory
   // Logout
   vm.logout = () => {
     AuthFactory.logout()
-    $state.go('login')
+    $location.path('/login')
   }
 
   // Toggle asAdmin / asMember lists

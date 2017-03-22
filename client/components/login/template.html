@@ -17,8 +17,8 @@
                             <button type="submit" class="btn btn-lg btn-info btn-block">Login</button>
                         </fieldset>
                     </form>
-                    <div class="errorMessage alert alert-danger">
-                      Here goes a message
+                    <div class="errorMessage alert alert-danger ng-hide-remove" ng-show="vm.errorMessage">
+                      {{ vm.errorMessage }}
                     </div>
                     <div class="forgot-password text-center">
                       <a href="/#!/restore-password">Forgot the password?</a>

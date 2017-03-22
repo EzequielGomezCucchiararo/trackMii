@@ -1,0 +1,34 @@
+/* when showing element
+
+.ng-hide-remove
+  animation: 0.5s flipInX ease
+
+/* flip in
+@keyframes flipInX
+  0%
+    transform: perspective(400px) rotate3d(1, 0, 0, 90deg)
+    transition-timing-function: ease-in
+    opacity: 0
+
+  40%
+    transform: perspective(400px) rotate3d(1, 0, 0, -20deg)
+    transform: perspective(400px) rotate3d(1, 0, 0, -20deg)
+    transform: perspective(400px) rotate3d(1, 0, 0, -20deg)
+    transition-timing-function: ease-in
+    transition-timing-function: ease-in
+
+  60%
+    transform: perspective(400px) rotate3d(1, 0, 0, 10deg)
+    transform: perspective(400px) rotate3d(1, 0, 0, 10deg)
+    transform: perspective(400px) rotate3d(1, 0, 0, 10deg)
+    opacity: 1
+
+  80%
+    transform: perspective(400px) rotate3d(1, 0, 0, -5deg)
+    transform: perspective(400px) rotate3d(1, 0, 0, -5deg)
+    transform: perspective(400px) rotate3d(1, 0, 0, -5deg)
+
+  100%
+    transform: perspective(400px)
+    transform: perspective(400px)
+    transform: perspective(400px)

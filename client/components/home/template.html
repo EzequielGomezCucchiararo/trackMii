@@ -25,7 +25,7 @@
           <!-- List Groups as Members -->
           <ul class="list-group memberGroupList" ng-show="vm.showGroupCheck">
             <li class="list-group-item" ng-repeat="group in vm.groupsAsMember">
-              <a ui-sref="group({ groupName: group.groupName, groupId: group._id })">
+              <a href="/#!/group/{{group._groupId}}">
                 {{group.groupName}}
                 <span class="badge pull-right">{{group.members.length}}</span>
               </a>
@@ -35,7 +35,7 @@
           <!-- List Groups as Admin -->
           <ul class="list-group adminGroupList" ng-show="!vm.showGroupCheck">
             <li class="list-group-item" ng-repeat="group in vm.groupsAsAdmin">
-              <a ui-sref="group({ groupId: group._id, groupName: group.groupName })">
+              <a href="/#!/group/{{group._groupId}}">
                 {{group.groupName}}
                 <span class="badge pull-right">{{group.members.length}}</span>
               </a>
