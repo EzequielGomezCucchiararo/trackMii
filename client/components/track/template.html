@@ -10,8 +10,13 @@
                 </div>
                 <div class="usersMapInfo">
                   <ul class="list-unstyled onlineList">
-                    <li ng-class="{onlineUser: true, onlineActiveUser: vm.userViewCenter}" ng-repeat="track in vm.tracks">
-                      <p ng-click="vm.changeMapCenter(track.coords)">{{track.username}}</p>
+                    <li class="onlineUser onlineUserBtn" ng-click="vm.toggleOnlineUsers()">Show Online Users</li>
+                    <li>
+                      <ul class="list-unstyled ng-hide-remove" ng-show="vm.toggleOnlineUsersCheck">
+                        <li ng-class="{onlineUser: true, onlineActiveUser: vm.userViewCenter}" ng-repeat="track in vm.tracks">
+                          <p ng-click="vm.changeMapCenter(track.coords)">{{track.username}}</p>
+                        </li>
+                      </ul>
                     </li>
                   </ul>
                 </div>

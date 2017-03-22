@@ -11,7 +11,7 @@ function TrackCtrl ($rootScope, $window, $scope, NgMap, $location, $routeParams,
   vm.groupName = $routeParams.groupName
   vm.tracks = []
   vm.track = {userId, username, groupId: vm.groupId}
-
+  vm.toggleOnlineUsersCheck = false
   vm.track.coords = {}
   vm.alertMessage = ''
 
@@ -26,6 +26,10 @@ function TrackCtrl ($rootScope, $window, $scope, NgMap, $location, $routeParams,
   vm.changeMapCenter = (coords) => {
     vm.track.coords.latitude = coords.latitude
     vm.track.coords.longitude = coords.longitude
+  }
+
+  vm.toggleOnlineUsers = () => {
+    vm.toggleOnlineUsersCheck = !vm.toggleOnlineUsersCheck
   }
 
   vm.leaveGroup = () => {
