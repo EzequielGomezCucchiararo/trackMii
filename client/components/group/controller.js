@@ -1,7 +1,7 @@
 angular.module('app')
-  .controller('GroupCtrl', ['$rootScope', '$scope', '$http', '$routeParams', 'DataFactory', GroupCtrl])
+  .controller('GroupCtrl', ['$rootScope', '$scope', '$timeout', '$http', '$routeParams', 'DataFactory', GroupCtrl])
 
-function GroupCtrl ($rootScope, $scope, $http, $routeParams, DataFactory) {
+function GroupCtrl ($rootScope, $scope, $timeout, $http, $routeParams, DataFactory) {
   let vm = this
   let mailInfo = {}
 
@@ -19,7 +19,10 @@ function GroupCtrl ($rootScope, $scope, $http, $routeParams, DataFactory) {
   vm.sendEmail = () => {
     mailInfo.address = vm.emailAddress
     vm.emailAddress = ''
+    vm.successMessage = 'Invitation has been sent !'
+    $timeout(() => {
+      vm.successMessage = ''
+    }, 3000)
     DataFactory.sendEmail(mailInfo)
-      .then(response => { vm.successMessage = 'Invitation has been sent !' })
   }
 }

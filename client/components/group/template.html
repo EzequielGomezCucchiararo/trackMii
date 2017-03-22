@@ -1,36 +1,41 @@
 <div class="container">
     <div class="row">
-        <div class="xs-12">
-            <div class="panel panel-default">
-                <div class="panel-heading groupHeading">
-                    <h3 class="panel-title">Group: {{vm.groupName}}</h3>
-                    <a href="#!/home" class='btn btn-default pull-left backBtn'>
-                      <i class='glyphicon glyphicon-chevron-left' />
-                    </a>
-                </div>
-                <div class="panel-body">
-                  <h4 class="groupH4 bg-info">Members</h4>
-                  <ul class="list-group memberGroupList">
-                    <li ng-repeat="member in vm.members" role="presentation" class="list-group-item">
-                      {{member.username}}<span class="badge online">online</span>
-                    </li>
+        <div class="panel panel-default">
+            <div class="panel-heading groupHeading">
+                <h3 class="panel-title">Group: {{vm.groupName}}</h3>
+                <a href="#!/home" class='btn btn-default pull-left backBtn'>
+                  <i class='glyphicon glyphicon-chevron-left' />
+                </a>
+            </div>
+            <div class="panel-body">
+              <h4 class="groupH4 bg-info">Members</h4>
+              <ul class="list-group memberGroupList">
+                <li ng-repeat="member in vm.members" role="presentation" class="list-group-item">
+                  {{member.username}}<span class="badge online">online</span>
+                </li>
 
-                    <!-- <li role="presentation" class="list-group-item">member 2 <span class="badge">offline</span></li> -->
-                  </ul>
-                  <div class="form-group inviteInput">
-                    <input class="form-control" placeholder="Invite by email" type="email" ng-model="vm.emailAddress">
-                    <button class='btn btn-info pull-right' ng-click='vm.sendEmail()'>
-                      + <i class='glyphicon glyphicon-user' />
-                    </button>
-                  </div>
+                <!-- <li role="presentation" class="list-group-item">member 2 <span class="badge">offline</span></li> -->
+              </ul>
+              <div class="form-group inviteInput">
+                <form accept-charset="UTF-8" role="form" ng-submit="vm.sendEmail()">
+                    <fieldset>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="Invite by email" type="email" ng-model="vm.emailAddress" required>
+                            <button type=""submit class='btn btn-info pull-right'>
+                              + <i class='glyphicon glyphicon-user' />
+                            </button>
+                        </div>
+                    </fieldset>
+                </form>
 
-                  <a href="/#!/{{ vm.groupId }}/track?groupName={{ vm.groupName }}" class="btn btn-lg btn-warning btn-block">Open Track Map</a>
+              </div>
 
-                  <div class="errorMessage alert alert-successng-hide-remove" ng-show="vm.successMessage">
-                    {{vm.successMessage}}
-                  </div>
+              <a href="/#!/{{ vm.groupId }}/track?groupName={{ vm.groupName }}" class="btn btn-lg btn-warning btn-block">Open Track Map</a>
 
-                </div>
+              <div class="errorMessage alert alert-success ng-hide-remove" ng-show="vm.successMessage">
+                {{vm.successMessage}}
+              </div>
+
             </div>
         </div>
     </div>
