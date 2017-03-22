@@ -10,7 +10,6 @@ module.exports = function (io) {
       socket.groupId = track.groupId
       socket.coords = track.coords
       ioTracks[socket.groupId] ? ioTracks[socket.groupId].push(track) : ioTracks[socket.groupId] = [track]
-      console.log(ioTracks[socket.groupId])
     })
 
   // when the user disconnects.. perform this
@@ -21,7 +20,6 @@ module.exports = function (io) {
         if (track.userId != socket.userId) newTracks.push(track)
       })
       ioTracks[socket.groupId] = newTracks
-      console.log(`${socket.username} leave the group ${socket.groupId}`)
     })
 
   // when the user disconnects.. perform this
