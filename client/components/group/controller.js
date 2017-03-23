@@ -5,8 +5,10 @@
     .module('app')
     .controller('GroupController', GroupController)
 
+  // Inject dependencies
   GroupController.$inject = [ '$rootScope', '$scope', '$timeout', '$http', '$routeParams', 'DataFactory' ]
 
+  // Controller function
   function GroupController ($rootScope, $scope, $timeout, $http, $routeParams, DataFactory) {
     let vm = this
     let mailInfo = {}
@@ -37,7 +39,7 @@
       return false
     }
 
-    // Get members list func
+    // Get members list function
     function getMembers () {
       return DataFactory.getMembers(vm.groupId)
                         .then(response => {

@@ -5,8 +5,10 @@
     .module('app')
     .controller('TrackController', TrackController)
 
+  // Inject dependencies
   TrackController.$inject = [ '$rootScope', '$window', '$scope', 'NgMap', '$location', '$routeParams', 'socketio', '$interval', '$timeout' ]
 
+  // Controller function
   function TrackController ($rootScope, $window, $scope, NgMap, $location, $routeParams, socketio, $interval, $timeout) {
     let vm = this
 
@@ -23,7 +25,7 @@
     vm.track.coords = {}
     vm.tracks = []
 
-    // get current position
+    // Get current position
     navigator.geolocation.getCurrentPosition(function (position) {
       vm.track.coords.latitude = position.coords.latitude
       vm.track.coords.longitude = position.coords.longitude
@@ -31,6 +33,7 @@
       socketio.emit('joinGroup', {groupId: vm.groupId, username: vm.username})
     })
 
+    // Start tracking position function
     vm.startTracking = () => {
       vm.toggleTrackBtn = !vm.toggleTrackBtn
       vm.trackInterval = $interval(() => {
@@ -44,37 +47,43 @@
       }, vm.sendInterval)
     }
 
+    // Stop tracking position function
     vm.stopTracking = () => {
       vm.toggleTrackBtn = !vm.toggleTrackBtn
       $interval.cancel(vm.trackInterval)
       vm.trackInterval = undefined
     }
 
+    // Set new interval parameters
     vm.setNewIntervals = () => {
       vm.toggleSettings()
       vm.stopTracking()
-      vm.startTracking()
     }
 
+    // Change map center to clicked user
     vm.changeMapCenter = (coords) => {
       vm.track.coords.latitude = coords.latitude
       vm.track.coords.longitude = coords.longitude
     }
 
+    // Show/Hide online users
     vm.toggleOnlineUsers = () => {
       vm.toggleOnlineUsersCheck = !vm.toggleOnlineUsersCheck
     }
 
+    // Show/Hide Setings Button
     vm.toggleSettings = () => {
       vm.toggleSettingsCheck = !vm.toggleSettingsCheck
     }
 
+    // Emit leave group event to socket server and back to group page
     vm.leaveGroup = () => {
       socketio.emit('leaveGroup')
       socketio.emit('disconnect')
       $location.path('/groups/' + vm.groupId)
     }
 
+    // Socket listener for new locations
     socketio.on('send locations', (locations) => {
       if (updateTracksCheck) {
         console.log('recibo', locations)
@@ -84,6 +93,7 @@
       }
     })
 
+    // Socket listener for new notifications
     socketio.on('broadcast', (msg) => {
       vm.alertMessage = msg
       $timeout(() => {
@@ -91,6 +101,7 @@
       }, 3000)
     })
 
+    // Start refreshing config function
     function startRefreshConfig () {
       $timeout(() => {
         updateTracksCheck = !updateTracksCheck

@@ -5,11 +5,14 @@
     .module('app')
     .controller('LoginController', LoginController)
 
+  // Inject dependencies
   LoginController.$inject = [ '$location', 'AuthFactory' ]
 
+  // Controller function
   function LoginController ($location, AuthFactory) {
     let vm = this
 
+    // Login function
     vm.login = function () {
       const username = vm.username
       const password = vm.password

@@ -5,11 +5,14 @@
     .module('app')
     .controller('RegisterController', RegisterController)
 
+  // Inject dependencies
   RegisterController.$inject = [ 'AuthFactory' ]
 
+  // Controller function
   function RegisterController (AuthFactory) {
     let vm = this
 
+    // Register function
     vm.register = function () {
       const username = vm.username
       const password = vm.password

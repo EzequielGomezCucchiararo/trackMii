@@ -5,8 +5,10 @@
     .module('app')
     .controller('HomeController', HomeController)
 
+  // Inject dependencies
   HomeController.$inject = [ '$rootScope', '$window', '$location', '$routeParams', '$http', '$timeout', 'AuthFactory', 'DataFactory' ]
 
+  // Controller function
   function HomeController ($rootScope, $window, $location, $routeParams, $http, $timeout, AuthFactory, DataFactory) {
     let vm = this
     let groupToAdd = {}
@@ -20,7 +22,10 @@
     vm.userId = $rootScope.loggedUser.id
     vm.username = $rootScope.loggedUser.username
 
+    // Get the list of group (just as member)
     getListAsMember()
+
+    // Get the list of group (as admin & as member)
     getListAsAdmin()
 
     // Join a new group
@@ -58,6 +63,7 @@
       }
     }
 
+    // Check if group name is provided and execute the methods neeed
     function checkGroupName () {
       if (vm.newGroupName) {
         groupToAdd.groupName = vm.newGroupName
@@ -73,6 +79,7 @@
       }
     }
 
+    // Greet Message with hide timeout
     function msgGreeting () {
       if (!$rootScope.firstLoginGreeting) {
         $rootScope.firstLoginGreeting = true
@@ -85,7 +92,7 @@
       }
     }
 
-    // Get group list as member
+    // Get group list as member func
     function getListAsMember () {
       return DataFactory.getListAsMember(vm.userId)
       .then(response => {
@@ -95,7 +102,7 @@
       })
     }
 
-    // Get group list as admin
+    // Get group list as admin func
     function getListAsAdmin () {
       return DataFactory.getListAsAdmin(vm.userId)
       .then(response => { vm.groupsAsAdmin = response })
