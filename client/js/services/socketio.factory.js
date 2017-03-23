@@ -9,7 +9,10 @@
 
   function socketio ($rootScope) {
     let socket = io.connect()
-    let service = { on, emit }
+    let service = {
+      on,
+      emit
+    }
 
     return service
 

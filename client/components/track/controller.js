@@ -6,10 +6,10 @@
     .controller('TrackController', TrackController)
 
   // Inject dependencies
-  TrackController.$inject = [ '$rootScope', '$window', '$scope', 'NgMap', '$location', '$routeParams', 'socketio', '$interval', '$timeout' ]
+  TrackController.$inject = [ '$rootScope', '$window', '$scope', 'NgMap', '$location', '$routeParams', 'socketio', '$interval', '$timeout', 'TrackingFactory' ]
 
   // Controller function
-  function TrackController ($rootScope, $window, $scope, NgMap, $location, $routeParams, socketio, $interval, $timeout) {
+  function TrackController ($rootScope, $window, $scope, NgMap, $location, $routeParams, socketio, $interval, $timeout, TrackingFactory) {
     let vm = this
 
     let updateTracksCheck = true
@@ -26,24 +26,13 @@
     vm.tracks = []
 
     // Get current position
-    navigator.geolocation.getCurrentPosition(function (position) {
-      vm.track.coords.latitude = position.coords.latitude
-      vm.track.coords.longitude = position.coords.longitude
-      socketio.emit('new track', vm.track)
-      socketio.emit('joinGroup', {groupId: vm.groupId, username: vm.username})
-    })
+    TrackingFactory.getCurrentLocation(socketio, vm.track, vm.groupId, vm.username)
 
     // Start tracking position function
     vm.startTracking = () => {
       vm.toggleTrackBtn = !vm.toggleTrackBtn
       vm.trackInterval = $interval(() => {
-        navigator.geolocation.getCurrentPosition(function (position) {
-          vm.track.coords.latitude = position.coords.latitude
-          vm.track.coords.longitude = position.coords.longitude
-          console.log('envío', vm.track.coords)
-          socketio.emit('new track', vm.track)
-          socketio.emit('joinGroup', {groupId: vm.groupId, username: vm.username})
-        })
+        TrackingFactory.getCurrentLocation(socketio, vm.track, vm.groupId, vm.username)
       }, vm.sendInterval)
     }
 
