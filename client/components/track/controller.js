@@ -4,15 +4,15 @@ angular.module('app')
 function TrackCtrl ($rootScope, $window, $scope, NgMap, $location, $routeParams, socketio, $interval) {
   let vm = this
 
-  const username = $rootScope.loggedUser.username
-  const userId = $rootScope.loggedUser.id
+  vm.username = $rootScope.loggedUser.username
+  vm.userId = $rootScope.loggedUser.id
 
   let updateTracksChech = true
 
   vm.groupId = $routeParams.groupId
   vm.groupName = $routeParams.groupName
   vm.tracks = []
-  vm.track = {userId, username, groupId: vm.groupId}
+  vm.track = {userId: vm.userId, username: vm.username, groupId: vm.groupId}
   vm.track.coords = {}
   vm.alertMessage = ''
   vm.refreshInterval = 5000
@@ -23,7 +23,7 @@ function TrackCtrl ($rootScope, $window, $scope, NgMap, $location, $routeParams,
     vm.track.coords.latitude = position.coords.latitude
     vm.track.coords.longitude = position.coords.longitude
     socketio.emit('new track', vm.track)
-    socketio.emit('joinGroup', {groupId: vm.groupId, username})
+    socketio.emit('joinGroup', {groupId: vm.groupId, username: vm.username})
   })
 
   vm.startTracking = () => {

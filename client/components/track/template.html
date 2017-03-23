@@ -1,62 +1,66 @@
 <div class="container">
     <div class="row">
-            <div class="panel panel-default">
-                <div class="panel-heading groupHeading">
-                  <h3 class="panel-title">{{vm.groupName}}</h3>
-                  <a class='btn btn-default pull-left backBtn' ng-click='vm.leaveGroup()'>
-                    <i class='glyphicon glyphicon-chevron-left' />
-                  </a>
-                  <button class='showUserListBtn btn btn-danger pull-right' ng-click="vm.toggleOnlineUsers()" ng-show="!vm.toggleOnlineUsersCheck">
-                    Show Users
-                  </button>
-                  <button class='showUserListBtn btn btn-danger pull-right' ng-click="vm.toggleOnlineUsers()" ng-show="vm.toggleOnlineUsersCheck">
-                    Hide Users
-                  </button>
-                </div>
-                <div class="usersMapInfo">
-                  <ul class="list-unstyled onlineList ng-hide-remove" ng-show="vm.toggleOnlineUsersCheck">
-                    <li class="" ng-class="{onlineUser: true, onlineActiveUser: vm.userViewCenter}" ng-repeat="track in vm.tracks">
-                      <p ng-click="vm.changeMapCenter(track.coords)">{{track.username}}</p>
-                    </li>
-                  </ul>
-                </div>
-                <div class="panel-body map">
-                  <ng-map zoom-to-include-markers="true" default-style="false" disable-default-u-i="true" zoom="20" center="[{{vm.track.coords.latitude}}, {{vm.track.coords.longitude}}]">
-                      <custom-marker ng-repeat="track in vm.tracks" position="[{{track.coords.latitude}}, {{track.coords.longitude}}]">
-                        <div class="markerDiv"><div><h4>{{track.username[0]}}</h4></div> </div>
-                      </custom-marker>
-                  </ng-map>
-                  <button class='toggleTrackBtn btn btn-info pull-right' ng-click="vm.startTracking()" ng-show="!vm.toggleTrackBtn">
-                    trackMii On
-                  </button>
-                  <button class='toggleTrackBtn btn btn-danger pull-right' ng-click="vm.stopTracking()" ng-show="vm.toggleTrackBtn">
-                    trackMii Off
-                  </button>
-
-                  <div class="settingInputs ng-hide-remove" ng-show="vm.toggleSettingsCheck">
-                    <form class="form-inline">
-                      <div class="form-group settingInputsForm">
-                        <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
-                        <div class="input-group refreshInterval">
-                          <div class="input-group-addon">Refresh Positions Interval</div>
-                          <input type="number" class="form-control" placeholder="In miliseconds" ng-model="vm.refreshInterval">
-                        </div>
-                        <div class="input-group">
-                          <div class="input-group-addon sendInterval">Send Position Interval</div>
-                          <input type="number" class="form-control" placeholder="In miliseconds" ng-model="vm.sendInterval">
+          <div class="panel panel-default">
+              <div class="panel-heading groupHeading">
+                <h3 class="panel-title">{{vm.groupName}}</h3>
+                <a class='btn btn-default pull-left backBtn' ng-click='vm.leaveGroup()'>
+                  <i class='glyphicon glyphicon-chevron-left' />
+                </a>
+                <button class='showUserListBtn btn btn-danger pull-right' ng-click="vm.toggleOnlineUsers()" ng-show="!vm.toggleOnlineUsersCheck">
+                  Show Users
+                </button>
+                <button class='showUserListBtn btn btn-danger pull-right' ng-click="vm.toggleOnlineUsers()" ng-show="vm.toggleOnlineUsersCheck">
+                  Hide Users
+                </button>
+              </div>
+              <div class="usersMapInfo">
+                <ul class="list-unstyled onlineList ng-hide-remove" ng-show="vm.toggleOnlineUsersCheck">
+                  <li class="" ng-class="{onlineUser: true, onlineActiveUser: vm.userViewCenter, selfTrack: track.userId == vm.userId}" ng-repeat="track in vm.tracks">
+                    <p ng-click="vm.changeMapCenter(track.coords)">{{track.username == vm.username ? 'You' : track.username}}</p>
+                  </li>
+                </ul>
+              </div>
+              <div class="panel-body map">
+                <ng-map zoom-to-include-markers="true" default-style="false" disable-default-u-i="true" zoom="20" center="[{{vm.track.coords.latitude}}, {{vm.track.coords.longitude}}]">
+                    <custom-marker ng-repeat="track in vm.tracks" position="[{{track.coords.latitude}}, {{track.coords.longitude}}]">
+                      <div class="markerDiv">
+                        <div>
+                          <h4 ng-class="{selfTrack: track.userId == vm.userId}">{{track.username[0]}}</h4>
                         </div>
                       </div>
-                      <button type="button" class="btn btn-primary pull-right" ng-click="vm.toggleSettings()">Set</button>
-                    </form>
-                  </div>
+                    </custom-marker>
+                </ng-map>
+                <button class='toggleTrackBtn btn btn-info pull-right' ng-click="vm.startTracking()" ng-show="!vm.toggleTrackBtn">
+                  trackMii On
+                </button>
+                <button class='toggleTrackBtn btn btn-danger pull-right' ng-click="vm.stopTracking()" ng-show="vm.toggleTrackBtn">
+                  trackMii Off
+                </button>
 
-                  <button class='settingBtn btn btn-success' ng-click="vm.toggleSettings()">
-                    <span class="glyphicon glyphicon-cog"></span>
-                  </button>
-                  <div class="errorMessage alert alert-danger ng-hide-remove" ng-show="vm.alertMessage">
-                    {{vm.alertMessage}}
-                  </div>
+                <div class="settingInputs ng-hide-remove" ng-show="vm.toggleSettingsCheck">
+                  <form class="form-inline">
+                    <div class="form-group settingInputsForm">
+                      <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
+                      <div class="input-group refreshInterval">
+                        <div class="input-group-addon">Refresh Positions Interval</div>
+                        <input type="number" class="form-control" placeholder="In miliseconds" ng-model="vm.refreshInterval">
+                      </div>
+                      <div class="input-group">
+                        <div class="input-group-addon sendInterval">Send Position Interval</div>
+                        <input type="number" class="form-control" placeholder="In miliseconds" ng-model="vm.sendInterval">
+                      </div>
+                    </div>
+                    <button type="button" class="btn btn-primary pull-right" ng-click="vm.toggleSettings()">Set</button>
+                  </form>
                 </div>
-            </div>
+
+                <button class='settingBtn btn btn-success' ng-click="vm.toggleSettings()">
+                  <span class="glyphicon glyphicon-cog"></span>
+                </button>
+                <div class="errorMessage alert alert-danger ng-hide-remove" ng-show="vm.alertMessage">
+                  {{vm.alertMessage}}
+                </div>
+              </div>
+          </div>
     </div>
 </div>
