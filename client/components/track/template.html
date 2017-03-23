@@ -15,16 +15,6 @@
                   </button>
                 </div>
                 <div class="usersMapInfo">
-                  <!-- <ul class="list-unstyled onlineList">
-                    <li class="onlineUser onlineUserBtn" ng-click="vm.toggleOnlineUsers()">Show Online Users</li>
-                    <li>
-                      <ul class="list-unstyled ng-hide-remove" ng-show="vm.toggleOnlineUsersCheck">
-                        <li ng-class="{onlineUser: true, onlineActiveUser: vm.userViewCenter}" ng-repeat="track in vm.tracks">
-                          <p ng-click="vm.changeMapCenter(track.coords)">{{track.username}}</p>
-                        </li>
-                      </ul>
-                    </li>
-                  </ul> -->
                   <ul class="list-unstyled onlineList ng-hide-remove" ng-show="vm.toggleOnlineUsersCheck">
                     <li class="" ng-class="{onlineUser: true, onlineActiveUser: vm.userViewCenter}" ng-repeat="track in vm.tracks">
                       <p ng-click="vm.changeMapCenter(track.coords)">{{track.username}}</p>
@@ -37,6 +27,12 @@
                         <div class="markerDiv"><div><h4>{{track.username[0]}}</h4></div> </div>
                       </custom-marker>
                   </ng-map>
+                  <button class='toggleTrackBtn btn btn-info pull-right' ng-click="vm.startTracking()" ng-show="!vm.toggleTrackBtn">
+                    trackMii On
+                  </button>
+                  <button class='toggleTrackBtn btn btn-danger pull-right' ng-click="vm.stopTracking()" ng-show="vm.toggleTrackBtn">
+                    trackMii Off
+                  </button>
                   <div class="errorMessage alert alert-danger ng-hide-remove" ng-show="vm.alertMessage">
                     {{vm.alertMessage}}
                   </div>
