@@ -1,7 +1,13 @@
-angular.module('app')
-  .controller('RegisterCtrl', ['AuthFactory', RegisterCtrl])
+(function () {
+  'use strict'
 
-  function RegisterCtrl (AuthFactory) {
+  angular
+    .module('app')
+    .controller('RegisterController', RegisterController)
+
+  RegisterController.$inject = [ 'AuthFactory' ]
+
+  function RegisterController (AuthFactory) {
     let vm = this
 
     vm.register = function () {
@@ -12,3 +18,4 @@ angular.module('app')
                              : vm.errorMessage = 'Passwords doesn\'t match'
     }
   }
+})()

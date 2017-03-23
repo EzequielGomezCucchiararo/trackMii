@@ -1,90 +1,104 @@
-angular.module('app')
-  .controller('HomeCtrl', ['$rootScope', '$window', '$location', '$routeParams', '$http', '$timeout', 'AuthFactory', 'DataFactory', HomeCtrl])
+(function () {
+  'use strict'
 
-function HomeCtrl ($rootScope, $window, $location, $routeParams, $http, $timeout, AuthFactory, DataFactory) {
-  let vm = this
-  let groupToAdd = {}
-  let groupToJoin = {}
+  angular
+    .module('app')
+    .controller('HomeController', HomeController)
 
-  $rootScope.currentGroup = ''
+  HomeController.$inject = [ '$rootScope', '$window', '$location', '$routeParams', '$http', '$timeout', 'AuthFactory', 'DataFactory' ]
 
-  vm.username = $rootScope.loggedUser.username
-  vm.userId = $rootScope.loggedUser.id
-  vm.showGroupCheck = true
-  vm.activeMember = 'active'
-  vm.activeAdmin = ''
+  function HomeController ($rootScope, $window, $location, $routeParams, $http, $timeout, AuthFactory, DataFactory) {
+    let vm = this
+    let groupToAdd = {}
+    let groupToJoin = {}
 
-  // Get group list as member
-  DataFactory.getListAsMember(vm.userId)
-    .then(response => {
-      $rootScope.currentGroup = response.groupName
-      vm.groupsAsMember = response
-      msgGreeting()
-    })
+    $rootScope.currentGroup = ''
 
-  // Get group list as admin
-  DataFactory.getListAsAdmin(vm.userId)
-    .then(response => { vm.groupsAsAdmin = response })
+    vm.activeMember = 'active'
+    vm.activeAdmin = ''
+    vm.showGroupCheck = true
+    vm.userId = $rootScope.loggedUser.id
+    vm.username = $rootScope.loggedUser.username
 
-// Join a new group
-  vm.joinGroup = () => {
-    groupToJoin.groupId = vm.joinGroupPassword
-    groupToJoin.userId = vm.userId
-    DataFactory.joinGroup(groupToJoin)
+    getListAsMember()
+    getListAsAdmin()
+
+    // Join a new group
+    vm.joinGroup = () => {
+      groupToJoin.groupId = vm.joinGroupPassword
+      groupToJoin.userId = vm.userId
+      DataFactory.joinGroup(groupToJoin)
       .then(response => {
         vm.joinGroupPassword = ''
         $window.location.reload()
       })
-  }
+    }
+
+    // Logout
+    vm.logout = () => {
+      AuthFactory.logout()
+      $location.path('/login')
+    }
+
+    // Toggle asAdmin / asMember lists
+    vm.toggleGroup = () => {
+      vm.activeMember = (vm.activeMember === 'active') ? '' : 'active'
+      vm.activeAdmin = (vm.activeAdmin === 'active') ? '' : 'active'
+      vm.showGroupCheck = !vm.showGroupCheck
+    }
 
   // Create a new group
-  vm.addGroup = () => {
-    if (checkGroupName()) {
-      DataFactory.createGroup(groupToAdd)
+    vm.addGroup = () => {
+      if (checkGroupName()) {
+        DataFactory.createGroup(groupToAdd)
         .then(response => {
           vm.newGroupName = ''
           $window.location.reload()
         })
+      }
     }
-  }
 
-  // Logout
-  vm.logout = () => {
-    AuthFactory.logout()
-    $location.path('/login')
-  }
-
-  // Toggle asAdmin / asMember lists
-  vm.toggleGroup = () => {
-    vm.activeMember = (vm.activeMember === 'active') ? '' : 'active'
-    vm.activeAdmin = (vm.activeAdmin === 'active') ? '' : 'active'
-    vm.showGroupCheck = !vm.showGroupCheck
-  }
-
-  function checkGroupName () {
-    if (vm.newGroupName) {
-      groupToAdd.groupName = vm.newGroupName
-      groupToAdd.admin = vm.userId
-      groupToAdd.members = [{
-        username: vm.username,
-        userId: vm.userId
-      }]
-      return true
-    } else {
-      vm.errorMessage = 'A name for the group is needed.'
-      return false
+    function checkGroupName () {
+      if (vm.newGroupName) {
+        groupToAdd.groupName = vm.newGroupName
+        groupToAdd.admin = vm.userId
+        groupToAdd.members = [{
+          username: vm.username,
+          userId: vm.userId
+        }]
+        return true
+      } else {
+        vm.errorMessage = 'A name for the group is needed.'
+        return false
+      }
     }
-  }
 
-  function msgGreeting () {
-    if (!$rootScope.firstLoginGreeting) {
-      $rootScope.firstLoginGreeting = true
-      $timeout(() => {
-        vm.successMessage = 'Welcome ' + vm.username + ' !!'
+    function msgGreeting () {
+      if (!$rootScope.firstLoginGreeting) {
+        $rootScope.firstLoginGreeting = true
         $timeout(() => {
-          vm.successMessage = ''
-        }, 3000)
-      }, 750)
+          vm.successMessage = 'Welcome ' + vm.username + ' !!'
+          $timeout(() => {
+            vm.successMessage = ''
+          }, 3000)
+        }, 750)
+      }
+    }
+
+    // Get group list as member
+    function getListAsMember () {
+      return DataFactory.getListAsMember(vm.userId)
+      .then(response => {
+        $rootScope.currentGroup = response.groupName
+        vm.groupsAsMember = response
+        msgGreeting()
+      })
+    }
+
+    // Get group list as admin
+    function getListAsAdmin () {
+      return DataFactory.getListAsAdmin(vm.userId)
+      .then(response => { vm.groupsAsAdmin = response })
     }
   }
-}
+})()

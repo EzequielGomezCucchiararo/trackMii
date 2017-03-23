@@ -1,12 +1,19 @@
 (function () {
+  'use strict'
+
   angular
     .module('app')
-    .factory('socketio', ['$rootScope', socketio])
+    .factory('socketio', socketio)
+
+  socketio.$inject = [ '$rootScope' ]
 
   function socketio ($rootScope) {
     let socket = io.connect()
+    let service = { on, emit }
 
-    return { on, emit }
+    return service
+
+    // //////////
 
     function on (eventName, callback) {
       socket.on(eventName, function () {

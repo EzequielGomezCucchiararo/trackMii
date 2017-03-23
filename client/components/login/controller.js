@@ -1,17 +1,22 @@
-angular.module('app')
-  .controller('LoginCtrl', ['$location', 'AuthFactory', LoginCtrl])
+(function () {
+  'use strict'
 
-function LoginCtrl ($location, AuthFactory) {
-  let vm = this
+  angular
+    .module('app')
+    .controller('LoginController', LoginController)
 
-  vm.login = function () {
-    const username = vm.username
-    const password = vm.password
-    AuthFactory.login({ username, password })
-      .then(AuthFactory.setCredentials)
-      .then(() => $location.path('/home'))
-      .catch(() => {
-        vm.errorMessage = 'Username or password are wrong'
-      })
+  LoginController.$inject = [ '$location', 'AuthFactory' ]
+
+  function LoginController ($location, AuthFactory) {
+    let vm = this
+
+    vm.login = function () {
+      const username = vm.username
+      const password = vm.password
+      AuthFactory.login({ username, password })
+        .then(AuthFactory.setCredentials)
+        .then(() => $location.path('/home'))
+        .catch(() => { vm.errorMessage = 'Username or password are wrong' })
+    }
   }
-}
+})()

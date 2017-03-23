@@ -1,18 +1,24 @@
 (function () {
+  'use strict'
+
   angular
-  .module('app')
-  .factory('AuthFactory', [
-    '$http', '$q', '$rootScope', '$location', 'StorageFactory', 'jwtHelper', AuthFactory
-  ])
+    .module('app')
+    .factory('AuthFactory', AuthFactory)
+
+  AuthFactory.$inject = [ '$http', '$q', '$rootScope', '$location', 'StorageFactory', 'jwtHelper' ]
 
   function AuthFactory ($http, $q, $rootScope, $location, StorageFactory, jwtHelper) {
-    return {
+    let service = {
       login,
       register,
       logout,
       isLoggedIn,
       setCredentials
     }
+
+    return service
+
+    // //////////
 
     function login (credentials) {
       const url = '/api/login'
@@ -38,7 +44,6 @@
     function isLoggedIn () {
       const token = StorageFactory.readToken()
       if (!token) return false
-      const tokenPayload = jwtHelper.decodeToken(token)
       return !(jwtHelper.isTokenExpired(token))
     }
 

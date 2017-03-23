@@ -1,6 +1,6 @@
 angular.module('app')
-  .controller('RestorePassCtrl', [RestorePassCtrl])
+  .controller('RestorePassController', [RestorePassController])
 
-function RestorePassCtrl () {
+function RestorePassController () {
   let vm = this
 }
