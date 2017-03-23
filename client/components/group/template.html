@@ -10,11 +10,9 @@
             <div class="panel-body">
               <h4 class="groupH4 bg-info">Members</h4>
               <ul class="list-group memberGroupList">
-                <li ng-repeat="member in vm.members" role="presentation" class="list-group-item">
-                  {{member.username}}
+                <li role="presentation" ng-repeat="member in vm.members" role="presentation" class="list-group-item">
+                  {{member.username}} <span ng-class="{badge: true, online: vm.inOnline(member.userId)}">{{vm.inOnline(member.userId) ? 'online' : 'offline'}}</span>
                 </li>
-
-                <!-- <li role="presentation" class="list-group-item">member 2 <span class="badge">offline</span></li> -->
               </ul>
               <div class="form-group inviteInput">
                 <form accept-charset="UTF-8" role="form" ng-submit="vm.sendEmail()">

@@ -30,7 +30,7 @@
                       </div>
                     </custom-marker>
                 </ng-map>
-                <button class='toggleTrackBtn btn btn-info pull-right' ng-click="vm.startTracking()" ng-show="!vm.toggleTrackBtn">
+                <button class='flash toggleTrackBtn btn btn-info pull-right' ng-click="vm.startTracking()" ng-show="!vm.toggleTrackBtn">
                   trackMii On
                 </button>
                 <button class='toggleTrackBtn btn btn-danger pull-right' ng-click="vm.stopTracking()" ng-show="vm.toggleTrackBtn">
@@ -50,14 +50,14 @@
                         <input type="number" class="form-control" placeholder="In miliseconds" ng-model="vm.sendInterval">
                       </div>
                     </div>
-                    <button type="button" class="btn btn-primary pull-right" ng-click="vm.toggleSettings()">Set</button>
+                    <button type="button" class="btn btn-primary pull-right" ng-click="vm.setNewIntervals()">Set</button>
                   </form>
                 </div>
 
                 <button class='settingBtn btn btn-success' ng-click="vm.toggleSettings()">
                   <span class="glyphicon glyphicon-cog"></span>
                 </button>
-                <div class="errorMessage alert alert-danger ng-hide-remove" ng-show="vm.alertMessage">
+                <div class="errorMessage newUserAlert flash alert alert-success ng-hide-remove" ng-show="vm.alertMessage">
                   {{vm.alertMessage}}
                 </div>
               </div>

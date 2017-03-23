@@ -4,6 +4,7 @@ angular.module('app')
 function GroupCtrl ($rootScope, $scope, $timeout, $http, $routeParams, DataFactory) {
   let vm = this
   let mailInfo = {}
+  vm.onlineUSers = []
 
   vm.groupId = $routeParams.groupId
   vm.groupName = $routeParams.groupName
@@ -13,7 +14,14 @@ function GroupCtrl ($rootScope, $scope, $timeout, $http, $routeParams, DataFacto
 
   // Get members list
   DataFactory.getMembers(vm.groupId)
-    .then(response => { vm.members = response.members })
+    .then(response => {
+      if ($rootScope.locations) {
+        vm.onlineUSers = $rootScope.locations.map(track => {
+          return track.userId
+        })
+      }
+      vm.members = response.members
+    })
 
   // Send mail invitation
   vm.sendEmail = () => {
@@ -24,5 +32,12 @@ function GroupCtrl ($rootScope, $scope, $timeout, $http, $routeParams, DataFacto
       vm.successMessage = ''
     }, 3000)
     DataFactory.sendEmail(mailInfo)
+  }
+
+  vm.inOnline = (memberId) => {
+    if (vm.onlineUSers.indexOf(memberId) !== -1) {
+      return true
+    }
+    return false
   }
 }

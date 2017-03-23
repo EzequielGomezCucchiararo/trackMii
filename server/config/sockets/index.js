@@ -22,6 +22,7 @@ module.exports = function (io) {
         socket.coords = track.coords
         ioTracks[socket.groupId] ? ioTracks[socket.groupId].push(track) : ioTracks[socket.groupId] = [track]
         console.log(ioTracks)
+        io.sockets.in(socket.groupId).emit('send locations', ioTracks[socket.groupId])
       }
     })
 
