@@ -17,11 +17,11 @@
     vm.groupName = $routeParams.groupName
     vm.refreshInterval = 3000
     vm.sendInterval = 3000
+    vm.userId = $rootScope.loggedUser.id
+    vm.username = $rootScope.loggedUser.username
     vm.track = {userId: vm.userId, username: vm.username, groupId: vm.groupId}
     vm.track.coords = {}
     vm.tracks = []
-    vm.userId = $rootScope.loggedUser.id
-    vm.username = $rootScope.loggedUser.username
 
     // get current position
     navigator.geolocation.getCurrentPosition(function (position) {
