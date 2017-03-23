@@ -6,33 +6,34 @@ module.exports = function (io) {
 
   // when server detect a new track
     socket.on('new track', track => {
-      if (socket.userId == track.userId) {
-        ioTracks[socket.groupId].map(trackToCheck => {
-          if (trackToCheck.userId == track.userId) {
-            trackToCheck.coords = track.coords
-            return trackToCheck
-          } else {
-            return trackToCheck
-          }
-        })
-        io.sockets.in(socket.groupId).emit('send locations', ioTracks[socket.groupId])
-      } else {
-        socket.userId = track.userId
-        socket.groupId = track.groupId
-        socket.coords = track.coords
-        ioTracks[socket.groupId] ? ioTracks[socket.groupId].push(track) : ioTracks[socket.groupId] = [track]
-        console.log(ioTracks)
-        io.sockets.in(socket.groupId).emit('send locations', ioTracks[socket.groupId])
-      }
+      // if (socket.userId == track.userId) {
+      //   ioTracks[socket.groupId] = ioTracks[socket.groupId].map(trackToCheck => {
+      //     if (trackToCheck.userId == track.userId) {
+      //       trackToCheck.coords = track.coords
+      //       return trackToCheck
+      //     } else {
+      //       return trackToCheck
+      //     }
+      //   })
+      //   io.sockets.in(socket.groupId).emit('send locations', ioTracks[socket.groupId])
+      // } else {
+      socket.userId = track.userId
+      socket.groupId = track.groupId
+      socket.coords = track.coords
+      ioTracks[socket.groupId] ? ioTracks[socket.groupId].push(track) : ioTracks[socket.groupId] = [track]
+      io.sockets.in(socket.groupId).emit('send locations', ioTracks[socket.groupId])
+      // }
     })
 
   // when the user disconnects.. perform this
     socket.on('leaveGroup', () => {
       socket.leave(socket.groupId)
       let newTracks = []
-      ioTracks[socket.groupId].forEach(track => {
-        if (track.userId != socket.userId) newTracks.push(track)
-      })
+      if (ioTracks[socket.groupId]) {
+        ioTracks[socket.groupId].forEach(track => {
+          if (track.userId != socket.userId) newTracks.push(track)
+        })
+      }
       ioTracks[socket.groupId] = newTracks
     })
 

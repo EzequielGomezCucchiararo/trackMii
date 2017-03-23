@@ -1,7 +1,7 @@
 angular.module('app')
-  .controller('TrackCtrl', ['$rootScope', '$window', '$scope', 'NgMap', '$location', '$routeParams', 'socketio', '$interval', TrackCtrl])
+  .controller('TrackCtrl', ['$rootScope', '$window', '$scope', 'NgMap', '$location', '$routeParams', 'socketio', '$interval', '$timeout', TrackCtrl])
 
-function TrackCtrl ($rootScope, $window, $scope, NgMap, $location, $routeParams, socketio, $interval) {
+function TrackCtrl ($rootScope, $window, $scope, NgMap, $location, $routeParams, socketio, $interval, $timeout) {
   let vm = this
 
   vm.username = $rootScope.loggedUser.username
@@ -20,10 +20,8 @@ function TrackCtrl ($rootScope, $window, $scope, NgMap, $location, $routeParams,
 
   // get current position
   navigator.geolocation.getCurrentPosition(function (position) {
-    console.log('he entrado al getCurrent')
     vm.track.coords.latitude = position.coords.latitude
     vm.track.coords.longitude = position.coords.longitude
-    console.log('positions: ', position)
     socketio.emit('new track', vm.track)
     socketio.emit('joinGroup', {groupId: vm.groupId, username: vm.username})
   })
@@ -36,6 +34,7 @@ function TrackCtrl ($rootScope, $window, $scope, NgMap, $location, $routeParams,
         vm.track.coords.longitude = position.coords.longitude
         console.log('envío', vm.track.coords)
         socketio.emit('new track', vm.track)
+        socketio.emit('joinGroup', {groupId: vm.groupId, username: vm.username})
       })
     }, vm.sendInterval)
   }
@@ -52,9 +51,11 @@ function TrackCtrl ($rootScope, $window, $scope, NgMap, $location, $routeParams,
     vm.startTracking()
   }
 
-  $interval(() => {
-    updateTracksCheck = !updateTracksCheck
-  }, vm.refreshInterval)
+  function startRefreshConfig () {
+    $timeout(() => {
+      updateTracksCheck = !updateTracksCheck
+    }, vm.refreshInterval)
+  }
 
   vm.changeMapCenter = (coords) => {
     vm.track.coords.latitude = coords.latitude
@@ -71,16 +72,23 @@ function TrackCtrl ($rootScope, $window, $scope, NgMap, $location, $routeParams,
 
   vm.leaveGroup = () => {
     socketio.emit('leaveGroup')
+    socketio.emit('disconnect')
     $location.path('/groups/' + vm.groupId)
   }
 
   socketio.on('send locations', (locations) => {
-    console.log('recibo:', locations)
-    vm.tracks = locations
-    $rootScope.locations = locations
+    if (updateTracksCheck) {
+      console.log('recibo', locations)
+      vm.tracks = locations
+      updateTracksCheck = !updateTracksCheck
+      startRefreshConfig()
+    }
   })
 
   socketio.on('broadcast', (msg) => {
     vm.alertMessage = msg
+    $timeout(() => {
+      vm.alertMessage = ''
+    }, 3000)
   })
 }
