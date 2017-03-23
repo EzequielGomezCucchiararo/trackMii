@@ -1,6 +1,5 @@
 <div class="container">
     <div class="row">
-        <div class="xs-12">
             <div class="panel panel-default">
                 <div class="panel-heading groupHeading">
                   <h3 class="panel-title">{{vm.groupName}}</h3>
@@ -33,12 +32,31 @@
                   <button class='toggleTrackBtn btn btn-danger pull-right' ng-click="vm.stopTracking()" ng-show="vm.toggleTrackBtn">
                     trackMii Off
                   </button>
+
+                  <div class="settingInputs ng-hide-remove" ng-show="vm.toggleSettingsCheck">
+                    <form class="form-inline">
+                      <div class="form-group settingInputsForm">
+                        <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
+                        <div class="input-group refreshInterval">
+                          <div class="input-group-addon">Refresh Positions Interval</div>
+                          <input type="number" class="form-control" placeholder="In miliseconds" ng-model="vm.refreshInterval">
+                        </div>
+                        <div class="input-group">
+                          <div class="input-group-addon sendInterval">Send Position Interval</div>
+                          <input type="number" class="form-control" placeholder="In miliseconds" ng-model="vm.sendInterval">
+                        </div>
+                      </div>
+                      <button type="button" class="btn btn-primary pull-right" ng-click="vm.toggleSettings()">Set</button>
+                    </form>
+                  </div>
+
+                  <button class='settingBtn btn btn-success' ng-click="vm.toggleSettings()">
+                    <span class="glyphicon glyphicon-cog"></span>
+                  </button>
                   <div class="errorMessage alert alert-danger ng-hide-remove" ng-show="vm.alertMessage">
                     {{vm.alertMessage}}
                   </div>
                 </div>
             </div>
-        </div>
     </div>
 </div>
-s

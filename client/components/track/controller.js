@@ -7,14 +7,16 @@ function TrackCtrl ($rootScope, $window, $scope, NgMap, $location, $routeParams,
   const username = $rootScope.loggedUser.username
   const userId = $rootScope.loggedUser.id
 
+  let updateTracksChech = true
+
   vm.groupId = $routeParams.groupId
   vm.groupName = $routeParams.groupName
   vm.tracks = []
   vm.track = {userId, username, groupId: vm.groupId}
-  vm.toggleOnlineUsersCheck = false
-  vm.toggleTrackBtn = false
   vm.track.coords = {}
   vm.alertMessage = ''
+  vm.refreshInterval = 5000
+  vm.sendInterval = 5000
 
   // get current position
   navigator.geolocation.getCurrentPosition(function (position) {
@@ -32,7 +34,7 @@ function TrackCtrl ($rootScope, $window, $scope, NgMap, $location, $routeParams,
         vm.track.coords.longitude = position.coords.longitude
         socketio.emit('new track', vm.track)
       })
-    }, 5000)
+    }, vm.sendInterval)
   }
 
   vm.stopTracking = () => {
@@ -40,6 +42,10 @@ function TrackCtrl ($rootScope, $window, $scope, NgMap, $location, $routeParams,
     $interval.cancel(vm.trackInterval)
     vm.trackInterval = undefined
   }
+
+  $interval(() => {
+    updateTracksChech = !updateTracksChech
+  }, vm.refreshInterval)
 
   vm.changeMapCenter = (coords) => {
     vm.track.coords.latitude = coords.latitude
@@ -50,14 +56,19 @@ function TrackCtrl ($rootScope, $window, $scope, NgMap, $location, $routeParams,
     vm.toggleOnlineUsersCheck = !vm.toggleOnlineUsersCheck
   }
 
+  vm.toggleSettings = () => {
+    vm.toggleSettingsCheck = !vm.toggleSettingsCheck
+  }
+
   vm.leaveGroup = () => {
     socketio.emit('leaveGroup')
     $location.path('/groups/' + vm.groupId)
   }
 
   socketio.on('send locations', (locations) => {
-    vm.tracks = locations
-    console.log(vm.tracks)
+    if (updateTracksChech) {
+      vm.tracks = locations
+    }
   })
 
   socketio.on('broadcast', (msg) => {
