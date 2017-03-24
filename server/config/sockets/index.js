@@ -2,21 +2,23 @@ module.exports = function (io) {
   let ioTracks = {}
 
   io.sockets.on('connection', function (socket) {
-    console.log(`Socket connected`)
-
-  // when server detect a new track
+    // When recive a new socket track...
     socket.on('new track', track => {
       socket.groupId = track.groupId
       socket.coords = track.coords
       if (socket.userId == track.userId) {
         let newTracks = []
-        ioTracks[socket.groupId].forEach(newTrack => {
-          console.log(newTrack)
-          if (newTrack.userId == track.userId) {
-            newTrack.coords = track.coords
-          }
-          newTracks.push(newTrack)
-        })
+        if (ioTracks[socket.groupId]) {
+          ioTracks[socket.groupId].forEach(newTrack => {
+            console.log(newTrack)
+            if (newTrack.userId == track.userId) {
+              newTrack.coords = track.coords
+            }
+            newTracks.push(newTrack)
+          })
+        } else {
+          ioTracks[socket.groupId] = [track]
+        }
         ioTracks[socket.groupId] = newTracks
       } else {
         socket.userId = track.userId
