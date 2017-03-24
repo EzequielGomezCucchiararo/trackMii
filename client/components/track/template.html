@@ -30,17 +30,18 @@
                       </div>
                     </custom-marker>
                 </ng-map>
-                <button class='flash toggleTrackBtn btn btn-info pull-right' ng-click="vm.startTracking()" ng-show="!vm.toggleTrackBtn">
-                  trackMii On
-                </button>
-                <button class='toggleTrackBtn btn btn-danger pull-right' ng-click="vm.stopTracking()" ng-show="vm.toggleTrackBtn">
-                  trackMii Off
-                </button>
+                <div ng-show="!vm.showTrackBtns">
+                  <button class='flash toggleTrackBtn btn btn-info pull-right' ng-click="vm.startTracking()" ng-show="!vm.toggleTrackBtn">
+                    trackMii On
+                  </button>
+                  <button class='toggleTrackBtn btn btn-danger pull-right' ng-click="vm.stopTracking()" ng-show="vm.toggleTrackBtn">
+                    trackMii Off
+                  </button>
+                </div>
 
                 <div class="settingInputs ng-hide-remove" ng-show="vm.toggleSettingsCheck">
                   <form class="form-inline">
                     <div class="form-group settingInputsForm">
-                      <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
                       <div class="input-group refreshInterval">
                         <div class="input-group-addon">Refresh Positions Interval</div>
                         <input type="number" class="form-control" placeholder="In miliseconds" ng-model="vm.refreshInterval">
@@ -54,7 +55,7 @@
                   </form>
                 </div>
 
-                <button class='settingBtn btn btn-success' ng-click="vm.toggleSettings()">
+                <button class='settingBtn btn btn-success' ng-click="vm.toggleSettings()" ng-show="!vm.showSettingsBtn">
                   <span class="glyphicon glyphicon-cog"></span>
                 </button>
                 <div class="errorMessage newUserAlert flash alert alert-success ng-hide-remove" ng-show="vm.alertMessage">

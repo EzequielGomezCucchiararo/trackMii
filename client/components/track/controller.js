@@ -31,6 +31,7 @@
     // Start tracking position function
     vm.startTracking = () => {
       vm.toggleTrackBtn = !vm.toggleTrackBtn
+      vm.showSettingsBtn = !vm.showSettingsBtn
       vm.trackInterval = $interval(() => {
         TrackingFactory.getCurrentLocation(socketio, vm.track, vm.groupId, vm.username)
       }, vm.sendInterval)
@@ -39,6 +40,7 @@
     // Stop tracking position function
     vm.stopTracking = () => {
       vm.toggleTrackBtn = !vm.toggleTrackBtn
+      vm.showSettingsBtn = !vm.showSettingsBtn
       $interval.cancel(vm.trackInterval)
       vm.trackInterval = undefined
     }
@@ -47,6 +49,9 @@
     vm.setNewIntervals = () => {
       vm.toggleSettings()
       vm.stopTracking()
+      vm.startTracking()
+      vm.toggleTrackBtn = !vm.toggleTrackBtn
+      vm.showSettingsBtn = !vm.showSettingsBtn
     }
 
     // Change map center to clicked user
@@ -63,6 +68,7 @@
     // Show/Hide Setings Button
     vm.toggleSettings = () => {
       vm.toggleSettingsCheck = !vm.toggleSettingsCheck
+      vm.showTrackBtns = !vm.showTrackBtns
     }
 
     // Emit leave group event to socket server and back to group page

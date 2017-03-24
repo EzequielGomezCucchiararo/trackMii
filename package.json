@@ -4,7 +4,7 @@
   "description": "A dinamic real-time geolocation tracker",
   "main": "index.js",
   "scripts": {
-    "build-css": "node-sass --include-path sass client/stylesheets/sass/main.sass client/stylesheets/css/main.css",
+    "build-css": "node-sass --include-path sass ./client/stylesheets/sass/main.sass ./client/stylesheets/css/main.css",
     "prestart": "npm install",
     "start": "node index",
     "postinstall": "./node_modules/bower/bin/bower install",

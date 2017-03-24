@@ -13,12 +13,11 @@
     let vm = this
     let mailInfo = {}
 
-    mailInfo.groupId = vm.groupId
-
     vm.groupId = $routeParams.groupId
     vm.groupName = $routeParams.groupName
     vm.onlineUSers = []
 
+    mailInfo.groupId = vm.groupId
     getMembers()
 
     // Send mail invitation
@@ -30,6 +29,7 @@
         vm.successMessage = ''
       }, 3000)
       DataFactory.sendEmail(mailInfo)
+      console.log(mailInfo)
     }
 
     vm.inOnline = (memberId) => {

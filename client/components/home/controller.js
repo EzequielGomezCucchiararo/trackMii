@@ -79,26 +79,12 @@
       }
     }
 
-    // Greet Message with hide timeout
-    function msgGreeting () {
-      if (!$rootScope.firstLoginGreeting) {
-        $rootScope.firstLoginGreeting = true
-        $timeout(() => {
-          vm.successMessage = 'Welcome ' + vm.username + ' !!'
-          $timeout(() => {
-            vm.successMessage = ''
-          }, 3000)
-        }, 750)
-      }
-    }
-
     // Get group list as member func
     function getListAsMember () {
       return DataFactory.getListAsMember(vm.userId)
       .then(response => {
         $rootScope.currentGroup = response.groupName
         vm.groupsAsMember = response
-        msgGreeting()
       })
     }
 
