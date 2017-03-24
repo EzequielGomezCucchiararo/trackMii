@@ -73,7 +73,6 @@
 
     // Emit leave group event to socket server and back to group page
     vm.leaveGroup = () => {
-      socketio.emit('leaveGroup')
       socketio.emit('disconnect')
       $location.path('/groups/' + vm.groupId)
     }

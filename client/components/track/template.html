@@ -3,7 +3,7 @@
           <div class="panel panel-default">
               <div class="panel-heading groupHeading">
                 <h3 class="panel-title">{{vm.groupName}}</h3>
-                <a class='btn btn-default pull-left backBtn' ng-click='vm.leaveGroup()'>
+                <a class='btn btn-default pull-left backBtn' ng-click='vm.leaveGroup()' ng-show="!vm.toggleTrackBtn">
                   <i class='glyphicon glyphicon-chevron-left' />
                 </a>
                 <button class='showUserListBtn btn btn-danger pull-right' ng-click="vm.toggleOnlineUsers()" ng-show="!vm.toggleOnlineUsersCheck">

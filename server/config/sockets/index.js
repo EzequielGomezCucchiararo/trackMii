@@ -6,28 +6,29 @@ module.exports = function (io) {
 
   // when server detect a new track
     socket.on('new track', track => {
-      // if (socket.userId == track.userId) {
-      //   ioTracks[socket.groupId] = ioTracks[socket.groupId].map(trackToCheck => {
-      //     if (trackToCheck.userId == track.userId) {
-      //       trackToCheck.coords = track.coords
-      //       return trackToCheck
-      //     } else {
-      //       return trackToCheck
-      //     }
-      //   })
-      //   io.sockets.in(socket.groupId).emit('send locations', ioTracks[socket.groupId])
-      // } else {
-      socket.userId = track.userId
       socket.groupId = track.groupId
       socket.coords = track.coords
-      ioTracks[socket.groupId] ? ioTracks[socket.groupId].push(track) : ioTracks[socket.groupId] = [track]
+      if (socket.userId == track.userId) {
+        let newTracks = []
+        ioTracks[socket.groupId].forEach(newTrack => {
+          console.log(newTrack)
+          if (newTrack.userId == track.userId) {
+            newTrack.coords = track.coords
+          }
+          newTracks.push(newTrack)
+        })
+        ioTracks[socket.groupId] = newTracks
+      } else {
+        socket.userId = track.userId
+        ioTracks[socket.groupId] ? ioTracks[socket.groupId].push(track) : ioTracks[socket.groupId] = [track]
+      }
       io.sockets.in(socket.groupId).emit('send locations', ioTracks[socket.groupId])
-      // }
     })
 
   // when the user disconnects.. perform this
     socket.on('leaveGroup', () => {
       socket.leave(socket.groupId)
+      socket.broadcast.emit('broadcast', socket.username + ' is disconnected')
       let newTracks = []
       if (ioTracks[socket.groupId]) {
         ioTracks[socket.groupId].forEach(track => {
@@ -39,7 +40,6 @@ module.exports = function (io) {
 
   // when the user disconnects.. perform this
     socket.on('joinGroup', (user) => {
-      socket.broadcast.emit('broadcast', socket.username + ' is disconnected')
       socket.groupId = user.groupId
       socket.username = user.username
       socket.join(socket.groupId)
