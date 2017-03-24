@@ -80,7 +80,7 @@
     // Socket listener for new locations
     socketio.on('send locations', (locations) => {
       if (updateTracksCheck) {
-        console.log('recibo', locations)
+        $rootScope.locations = locations
         vm.tracks = locations
         updateTracksCheck = !updateTracksCheck
         startRefreshConfig()
