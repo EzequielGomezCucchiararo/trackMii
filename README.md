@@ -10,7 +10,9 @@ As a user you can create an account, log in, create groups and invite people by 
 
 Once you are log in and participating in a group, you can open a Google Map View where you can find the location of each online member.
 
-Can be seen online at: https://trackmii.herokuapp.com/
+Can be seen online at: https://trackmii.herokuapp.com/ 
+
+IMPORTANT: The layout is just for mobile screen, if you enter with a bigger device It will work, but It's not pretty :). 
 
 ## Keywords
 
